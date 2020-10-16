@@ -1,15 +1,28 @@
 class SearchA2DMatrix {
     public boolean searchMatrix(int[][] matrix, int target) {
-        int n = matrix.length;
-        int m = matrix[0].length;
-        int l = 0, r = m * n - 1;
-        while (l != r){
-            int mid = (l + r - 1) >> 1;
-            if (matrix[mid / m][mid % m] < target)
-                l = mid + 1;
-            else 
-                r = mid;
+        int row_num = matrix.length;
+        
+        if(row_num == 0)
+            return false;
+        int col_num = matrix[0].length;
+
+        int begin = 0, end = row_num * col_num - 1;
+
+        while(begin <= end){
+            int mid = (begin + end) / 2;
+            int mid_value = matrix[mid/col_num][mid%col_num];
+
+            if( mid_value == target){
+                return true;
+
+            }else if(mid_value < target){
+                //Should move a bit further, otherwise dead loop.
+                begin = mid+1;
+            }else{
+                end = mid-1;
+            }
         }
-        return matrix[r / m][r % m] == target;
+
+        return false;
     }
 }
